@@ -87,8 +87,6 @@ if nasa_power_uploaded_file is not None:
                     st.session_state['monthly_ghi_per_year_df'] = None
                     st.session_state['pivot_table_ghi'] = None
                 else:
-                    st.success("NASA/POWER CSV loaded and GHI column created. Displaying aggregations:")
-                    st.dataframe(df.head())
 
                     st.write("---")
                     st.subheader("1. Monthly GHI Aggregations (Across All Years)")
@@ -113,14 +111,11 @@ if nasa_power_uploaded_file is not None:
                         st.warning("No valid years found to calculate monthly average GHI.")
                         st.session_state['monthly_avg_per_year_ghi'] = None
                     
-                    st.write("---")
-                    st.subheader("3. Total GHI for Each Month within Each Year (Long Format)")
                     monthly_ghi_per_year_df = df.groupby(['YEAR', 'MO'])['GHI'].sum().reset_index()
                     monthly_ghi_per_year_df.columns = ['Year', 'Month', 'Total GHI (kW/m^2)']
-                    st.dataframe(monthly_ghi_per_year_df)
                     st.session_state['monthly_ghi_per_year_df'] = monthly_ghi_per_year_df
 
-                    st.subheader("4. Total GHI (kW/m^2) by Month and Year (Pivot Table View)")
+                    st.subheader("3. Total GHI (kW/m^2) by Month and Year (Pivot Table View)")
                     pivot_table_ghi = monthly_ghi_per_year_df.pivot_table(index='Month', columns='Year', values='Total GHI (kW/m^2)', aggfunc='sum')
                     pivot_table_ghi.columns.name = None
                     pivot_table_ghi.index.name = None
@@ -284,9 +279,6 @@ if st.session_state['monthly_avg_per_year_ghi'] is not None and not st.session_s
 else:
     st.warning("Please upload and process both the NASA/POWER CSV and the Monthly Aggregated TXT/CSV files to perform calculations.")
 
-st.write("---")
-
-st.header("Download Processed Data & Results")
 
 @st.cache_data
 def convert_df_to_csv(dataframe, include_index=False):
