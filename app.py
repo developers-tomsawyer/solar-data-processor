@@ -115,7 +115,7 @@ if nasa_power_uploaded_file is not None:
                     monthly_ghi_per_year_df.columns = ['Year', 'Month', 'Total GHI (kW/m^2)']
                     st.session_state['monthly_ghi_per_year_df'] = monthly_ghi_per_year_df
 
-                    st.subheader("3. Total GHI (kW/m^2) by Month and Year (Pivot Table View)")
+                    st.subheader("3. Total GHI (kW/m^2) by Month and Year")
                     pivot_table_ghi = monthly_ghi_per_year_df.pivot_table(index='Month', columns='Year', values='Total GHI (kW/m^2)', aggfunc='sum')
                     pivot_table_ghi.columns.name = None
                     pivot_table_ghi.index.name = None
@@ -242,7 +242,7 @@ if st.session_state['monthly_avg_per_year_ghi'] is not None and not st.session_s
     
 
     st.write("---")
-    st.subheader("Result: Adjusted Monthly GHI (Total GHI (Month & Year) * H_Gh / Avg GHI Ratio)")
+    st.subheader("Result: Monthly GHI (Total GHI (Month & Year) * H_Gh / Avg GHI Ratio)")
 
     if st.session_state['monthly_ghi_per_year_df'] is not None and not st.session_state['monthly_ghi_per_year_df'].empty and \
        st.session_state['hgh_avg_ghi_ratio_df'] is not None and not st.session_state['hgh_avg_ghi_ratio_df'].empty:
